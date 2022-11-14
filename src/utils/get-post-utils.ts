@@ -32,6 +32,14 @@ export const getPostsByCategory = async (
   return data;
 };
 
+export const getPostBySlug = async (slug: string): Promise<StrapiPost> => {
+  const response = await fetch(
+    `${process.env.STRAPI_API_URL}/posts?filters[slug]=${slug}&populate[featuredImage][fields][0]=url&populate[featuredImage][fields][1]=alternativeText&populate[categories][fields][0]=name`
+  );
+  const data = await response.json();
+  return data.data[0];
+};
+
 export const getAllCategories = async () => {
   const response = await fetch(
     `${process.env.STRAPI_API_URL}/categories?fields=name`
