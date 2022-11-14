@@ -7,6 +7,7 @@ import { z } from "zod";
  */
 export const serverSchema = z.object({
   STRAPI_PREVIEW_SECRET: z.string(),
+  STRAPI_API_URL: z.string().url(),
   NODE_ENV: z.enum(["development", "test", "production"]),
 });
 
