@@ -1,3 +1,4 @@
+import ReactMarkdown from "react-markdown";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import { socials } from "../../components/socials";
@@ -31,7 +32,7 @@ const BlogPost = ({ post }: { post: StrapiPost }) => {
             <div className="grid grid-cols-12 gap-x-8">
               <div className="md:col-span-9 col-span-12">
                 <h1>{post.attributes.title}</h1>
-                <p>{post.attributes.content}</p>
+                <ReactMarkdown>{post.attributes.content}</ReactMarkdown>
               </div>
               <div className="col-span-3 hidden md:block">
                 <div className="sticky top-0 grid grid-row-12 bg-zinc-900 text-white gap-y-3">

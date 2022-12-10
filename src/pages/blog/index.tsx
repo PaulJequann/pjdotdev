@@ -160,8 +160,8 @@ const SubPage = ({ posts }: { posts: StrapiPost[] }) => {};
 const Home = ({ strapiData }: { strapiData: StrapiPostWithMeta }) => {
   const posts = strapiData.data;
   const meta = strapiData.meta.pagination;
-  console.log(meta);
-  console.log(posts);
+  // console.log(meta);
+  // console.log(posts);
   return (
     <>
       <Navbar />
@@ -184,21 +184,25 @@ const Home = ({ strapiData }: { strapiData: StrapiPostWithMeta }) => {
               <div className="pb-5 md:pb-0 border-b border-zinc-700 md:border-0 mb-5 md:mb-0 lg:col-span-6 col-span-12">
                 <div className="row">
                   <div className="col-span-6 lg:col-span-12 pb-4 overflow-hidden">
-                    <img
-                      className="w-full h-38 md:h-72 object-cover overflow-hidden scale-100 hover:scale-110 ease-in duration-1000"
-                      src={
-                        posts[0] &&
-                        posts[0].attributes.featuredImage.data.attributes.url
-                      }
-                      alt=""
-                    />
+                    <Link href={`/blog/${posts[0]?.attributes.slug}`}>
+                      <img
+                        className="w-full h-38 md:h-72 object-cover overflow-hidden scale-100 hover:scale-110 ease-in duration-1000"
+                        src={
+                          posts[0] &&
+                          posts[0].attributes.featuredImage.data.attributes.url
+                        }
+                        alt=""
+                      />
+                    </Link>
                   </div>
                   <div className="col-span-12 block">
                     <div className="text-base md:text-lg font-semibold text-yellow-600">
                       {posts[0] && getPostCategories(posts[0])}
                     </div>
                     <div className="text-lg md:text-2xl font-bold text-white uppercase pt-2 pb-3">
-                      <h2>{posts[0]?.attributes.title}</h2>
+                      <Link href={`/blog/${posts[0]?.attributes.slug}`}>
+                        <h2>{posts[0]?.attributes.title}</h2>
+                      </Link>
                     </div>
                     <div className="text-base md:text-lg text-gray-400">
                       {posts[0]?.attributes.description}
@@ -219,19 +223,24 @@ const Home = ({ strapiData }: { strapiData: StrapiPostWithMeta }) => {
                         }
                       >
                         <div className="col-span-5 overflow-hidden">
-                          <img
-                            className="w-full h-24 md:h-40 object-fill scale-100 hover:scale-125 ease-in duration-1000"
-                            src={
-                              post.attributes.featuredImage.data.attributes.url
-                            }
-                          />
+                          <Link href={`/blog/${post?.attributes.slug}`}>
+                            <img
+                              className="w-full h-24 md:h-40 object-fill scale-100 hover:scale-125 ease-in duration-1000"
+                              src={
+                                post.attributes.featuredImage.data.attributes
+                                  .url
+                              }
+                            />
+                          </Link>
                         </div>
                         <div className="col-span-7 block">
                           <div className="text-sm md:text-base font-semibold text-yellow-600">
                             {getPostCategories(post)}
                           </div>
                           <div className="text-base md:text-lg font-bold text-white uppercase py-2">
-                            <h2>{post.attributes.title}</h2>
+                            <Link href={`/blog/${post?.attributes.slug}`}>
+                              <h2>{post.attributes.title}</h2>
+                            </Link>
                           </div>
                           <div className="hidden md:block text-base text-gray-400">
                             {post.attributes.description}

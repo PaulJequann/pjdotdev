@@ -28,7 +28,7 @@ export const getPostsByCategory = async (
     `${process.env.STRAPI_API_URL}/posts?filters\[categories\][name][$eqi]=${category}&populate[featuredImage][fields][0]=url&populate[featuredImage][fields][1]=alternativeText&populate[categories][fields][0]=name&sort=createdAt%3Adesc&pagination[pageSize]=10`
   );
   const data = await response.json();
-  console.log("getPostsByCategory", data);
+  // console.log("getPostsByCategory", data);
   return data;
 };
 
@@ -52,7 +52,7 @@ export const getPostCategories = (post: StrapiPost): String[] => {
   const categories = post.attributes.categories.data.map((category) => {
     return category.attributes.name;
   });
-  console.log(categories);
+  // console.log(categories);
   return categories;
   //  return categories.join(", ");
 };
