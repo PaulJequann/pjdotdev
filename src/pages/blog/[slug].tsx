@@ -4,8 +4,43 @@ import Navbar from "../../components/Navbar";
 import { socials } from "../../components/socials";
 import { getPostBySlug } from "../../utils/get-post-utils";
 import { StrapiPost } from "../../utils/validators/strapi-post-validator";
+import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
+import tsx from "react-syntax-highlighter/dist/cjs/languages/prism/tsx";
+import typescript from "react-syntax-highlighter/dist/cjs/languages/prism/typescript";
+import bash from "react-syntax-highlighter/dist/cjs/languages/prism/bash";
+import json from "react-syntax-highlighter/dist/cjs/languages/prism/json";
+import powershell from "react-syntax-highlighter/dist/cjs/languages/prism/powershell";
+import { materialDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
+
+SyntaxHighlighter.registerLanguage("tsx", tsx);
+SyntaxHighlighter.registerLanguage("typescript", typescript);
+SyntaxHighlighter.registerLanguage("bash", bash);
+SyntaxHighlighter.registerLanguage("json", json);
+SyntaxHighlighter.registerLanguage("powershell", powershell);
+
 const BlogPost = ({ post }: { post: StrapiPost }) => {
   console.log(post);
+  const MarkdownComponents: object = {
+    code({ node, inline, className, children, ...props }) {
+      const match = /language-(\w+)/.exec(className || "");
+      return !inline && match ? (
+        <SyntaxHighlighter
+          style={materialDark}
+          language={match[1]}
+          PreTag="div"
+          // showLineNumbers={true}
+          wrapLongLines={true}
+          {...props}
+        >
+          {String(children).replace(/\n$/, "")}
+        </SyntaxHighlighter>
+      ) : (
+        <code className={className} {...props}>
+          {children}
+        </code>
+      );
+    },
+  };
   return (
     <>
       <Navbar />
@@ -30,9 +65,12 @@ const BlogPost = ({ post }: { post: StrapiPost }) => {
         <section className="bg-gray-100 text-neutral-900">
           <div className="container max-w-7xl px-3 py-5 md:px-6 md:py-10 mx-auto space-y-3 md:space-y-6">
             <div className="grid grid-cols-12 gap-x-8">
-              <div className="md:col-span-9 col-span-12">
+              <div className="md:col-span-9 col-span-12 prose  max-w-none">
                 <h1>{post.attributes.title}</h1>
-                <ReactMarkdown>{post.attributes.content}</ReactMarkdown>
+                {/* {post.attributes.content} */}
+                <ReactMarkdown components={MarkdownComponents}>
+                  {post.attributes.content}
+                </ReactMarkdown>
               </div>
               <div className="col-span-3 hidden md:block">
                 <div className="sticky top-0 grid grid-row-12 bg-zinc-900 text-white gap-y-3">
